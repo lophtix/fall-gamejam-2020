@@ -6,36 +6,77 @@ public class PlayerController : MonoBehaviour
 {   
     //public GameObject child;
 
-    public Transform devices;
+    public GameObject deviceManager;
+    public GameObject target;
+    public GameObject selectionArrow;
+    Renderer arrowRenderer;
 
-    void ChangeParentRandom()
+    // vvv incorrect as shite vvv
+    //List<GameObject> nearbyDevices = deviceManager.nearbyDevices;
+    List<GameObject> nearbyDevices = new List<GameObject>();
+
+    GameObject FindTarget(Vector2 joystickVector, List<GameObject> nearbyDevices)
     {
-        /*
-        for (int i=0; i=0; i++)
+        float dx;
+        float dz;
+        GameObject closestDevice = null;
+        Vector2 deviceVector;
+
+        float deviceAngle;
+        float angleDiff;
+        float smallestDiff = 360f;
+
+        foreach (GameObject device in nearbyDevices)
         {
+            dx = device.transform.position.x - transform.position.x;
+            dz = device.transform.position.z - transform.position.z;
+            deviceVector = new Vector2(dx, dz);
             
+            angleDiff = Vector2.Angle(joystickVector, deviceVector);
+
+            if(angleDiff < smallestDiff)
+            {
+                closestDevice = device;
+                smallestDiff = angleDiff;
+            }
         }
-        foreach (var item in collection)
-        {
-            
-        }
-        */
+        
+        return closestDevice;
+    }
+
+
+    void HighlightTarget(GameObject target)
+    {
+        selectionArrow.transform.SetParent(target.transform, false);
+        //selectionArrow.GetComponent<Renderer>().enabled = true;
+        arrowRenderer.enabled = true;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        arrowRenderer = selectionArrow.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.anyKeyDown)
-        {   
-            ChangeParentRandom();
-        }
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        Debug.Log(horizontalInput.ToString() + ", " + verticalInput.ToString());
+        //Debug.Log(verticalInput);
 
-        //transform.position = transform.position + new Vector3(0.1f, 0, 0);
+        if((horizontalInput != 0) || (verticalInput != 0))
+        {
+            Vector2 joystickVector = new Vector2(horizontalInput, verticalInput);
+            //GameObject target = FindTarget(joystickVector, nearbyDevices);
+            //DrawLineToTarget();
+            HighlightTarget(target);
+        }
+        else
+        {
+            //selectionArrow.GetComponent<Renderer>().enabled = false;
+            arrowRenderer.enabled = false;
+        }
     }
 }
