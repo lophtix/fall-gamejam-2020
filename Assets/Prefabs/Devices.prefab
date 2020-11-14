@@ -43,3 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb52dc1019df6ff438e578e1742ca45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DevicePrefab: {fileID: 8058689867366302304, guid: 15acd16e93b13e04bbc3642348797e35,
+    type: 3}
+  PlayerPrefab: {fileID: 551702952025237141, guid: 293f767b26f365840b5df333a436c847,
+    type: 3}
+  NumberOfDevices: 10
+  NumberOfPlayers: 1
+  LevelWidth: 10
+  LevelHeight: 10
