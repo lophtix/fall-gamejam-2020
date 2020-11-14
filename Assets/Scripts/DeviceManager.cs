@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class DeviceManager : MonoBehaviour {
     public GameObject DevicePrefab;
-
+    public GameObject PlayerPrefab;
+    public int NumberOfDevices = 10;
+    [Range(1, 4)]
+    public int NumberOfPlayers = 1;
+    public int LevelWidth = 10, LevelHeight = 10;
     public List<GameObject> Devices { get; }
     public List<Connection> Connections { get; }
 
@@ -34,15 +38,27 @@ public class DeviceManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        // Fill the first NumberOfPlayers objects in Devices with devices for spawning players
+        for (int i = 0; i < NumberOfPlayers; i++) {
+            int x = i % 2 * LevelWidth,
+                z = Mathf.FloorToInt(i / 2f) * LevelHeight;
+            var spawnDevicePos = new Vector3(x, 0, z);
+            GameObject spawnDevice = Instantiate(DevicePrefab, spawnDevicePos, Quaternion.identity);
+            Devices.Add(spawnDevice);
+
+            DeviceController spawnDeviceController = spawnDevice.GetComponent<DeviceController>();
+            spawnDeviceController.Player = Instantiate(PlayerPrefab, spawnDevice.transform);
+        }
+
         // Fill Devices with GameObjects on random positions
-        for (int i = 0; i < 10; i++) {
-            float x = Random.Range(0f, 10f);
-            float z = Random.Range(0f, 10f);
+        for (int i = 0; i < NumberOfDevices - NumberOfPlayers; i++) {
+            float x = Random.Range(0f, LevelWidth);
+            float z = Random.Range(0f, LevelHeight);
             var devicePos = new Vector3(x, 0, z);
             GameObject device = Instantiate(DevicePrefab, devicePos, Quaternion.identity);
             Devices.Add(device);
         }
-        
+
         // Fill Connections with objects, however ignore duplicates such as 1 - 2 - dist & 2 - 1 - dist
         for (int i = 0; i < Devices.Count; i++) {
             for (int j = 0; j < Devices.Count; j++) {

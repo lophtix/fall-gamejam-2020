@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     // vvv incorrect as shite vvv
     //List<GameObject> nearbyDevices = deviceManager.nearbyDevices;
-    List<GameObject> nearbyDevices = new List<GameObject>();
+    public List<Connection> nearbyDevices = new List<Connection>();
 
     GameObject FindTarget(Vector2 joystickVector, List<GameObject> nearbyDevices)
     {
