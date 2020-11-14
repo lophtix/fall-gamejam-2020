@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public GameObject deviceManager;
     public GameObject target;
     public GameObject selectionArrow;
+    Renderer arrowRenderer;
 
     // vvv incorrect as shite vvv
     //List<GameObject> nearbyDevices = deviceManager.nearbyDevices;
@@ -43,23 +44,27 @@ public class PlayerController : MonoBehaviour
         return closestDevice;
     }
 
+
     void HighlightTarget(GameObject target)
     {
-        selectionArrow.transform.SetParent(target);
-        selectionArrow.renderer.enabled = true;
+        selectionArrow.transform.SetParent(target.transform, false);
+        //selectionArrow.GetComponent<Renderer>().enabled = true;
+        arrowRenderer.enabled = true;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        arrowRenderer = selectionArrow.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        Debug.Log(horizontalInput.ToString() + ", " + verticalInput.ToString());
+        //Debug.Log(verticalInput);
 
         if((horizontalInput != 0) || (verticalInput != 0))
         {
@@ -70,7 +75,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            selectionArrow.renderer.enabled = false;
+            //selectionArrow.GetComponent<Renderer>().enabled = false;
+            arrowRenderer.enabled = false;
         }
     }
 }
