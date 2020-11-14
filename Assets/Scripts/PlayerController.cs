@@ -7,15 +7,18 @@ public class PlayerController : MonoBehaviour
     //public GameObject child;
 
     public GameObject deviceManager;
+    public GameObject target;
+    public GameObject selectionArrow;
 
     // vvv incorrect as shite vvv
-    List<GameObject> nearbyDevices = deviceManager.nearbyDevices;
+    //List<GameObject> nearbyDevices = deviceManager.nearbyDevices;
+    List<GameObject> nearbyDevices = new List<GameObject>();
 
     GameObject FindTarget(Vector2 joystickVector, List<GameObject> nearbyDevices)
     {
         float dx;
         float dz;
-        GameObject closestDevice;
+        GameObject closestDevice = null;
         Vector2 deviceVector;
 
         float deviceAngle;
@@ -40,6 +43,12 @@ public class PlayerController : MonoBehaviour
         return closestDevice;
     }
 
+    void HighlightTarget(GameObject target)
+    {
+        selectionArrow.transform.SetParent(target);
+        selectionArrow.renderer.enabled = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,8 +64,13 @@ public class PlayerController : MonoBehaviour
         if((horizontalInput != 0) || (verticalInput != 0))
         {
             Vector2 joystickVector = new Vector2(horizontalInput, verticalInput);
-            FindTarget(joystickVector, nearbyDevices);
-            // DrawLineToTarget();
+            //GameObject target = FindTarget(joystickVector, nearbyDevices);
+            //DrawLineToTarget();
+            HighlightTarget(target);
+        }
+        else
+        {
+            selectionArrow.renderer.enabled = false;
         }
     }
 }
