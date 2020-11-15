@@ -10,15 +10,20 @@ public class DeviceManager : MonoBehaviour {
     public int NumberOfDevices = 10;
     [Range(1, 4)]
     public int NumberOfPlayers = 1;
-    public int LevelWidth = 10, LevelHeight = 10;
+    public int LevelWidth = 20, LevelHeight = 20;
     public List<GameObject> Devices { get; }
     public List<Connection> Connections { get; }
+    public List<Vector3> MapPositions { get; set; }
+                /* Player, Position */
+    public List<(GameObject, Vector3)> NewMapPositions { get; }
 
-    private const float TRANSMISSION_DISTANCE = 3;
+    private const float TRANSMISSION_DISTANCE = 10;
 
     DeviceManager() {
         Devices = new List<GameObject>();
         Connections = new List<Connection>();
+        // set in MapManager: MapPositions = transform.parent.GetComponent<MapManager>().MapPositions;
+        NewMapPositions = new List<(GameObject, Vector3)>();
     }
 
     void UpdateConnections() {
@@ -45,7 +50,7 @@ public class DeviceManager : MonoBehaviour {
             int x = i % 2 * LevelWidth,
                 z = Mathf.FloorToInt(i / 2f) * LevelHeight;
             var spawnDevicePos = new Vector3(x, 0, z);
-            GameObject spawnDevice = Instantiate(DevicePrefab, spawnDevicePos, Quaternion.identity);
+            GameObject spawnDevice = Instantiate(DevicePrefab, spawnDevicePos, Quaternion.identity, transform);
             Devices.Add(spawnDevice);
 
             DeviceController spawnDeviceController = spawnDevice.GetComponent<DeviceController>();
@@ -57,7 +62,7 @@ public class DeviceManager : MonoBehaviour {
             float x = Random.Range(0f, LevelWidth);
             float z = Random.Range(0f, LevelHeight);
             var devicePos = new Vector3(x, 0, z);
-            GameObject device = Instantiate(DevicePrefab, devicePos, Quaternion.identity);
+            GameObject device = Instantiate(DevicePrefab, devicePos, Quaternion.identity, transform);
             Devices.Add(device);
         }
 
@@ -83,7 +88,7 @@ public class DeviceManager : MonoBehaviour {
 
                 DeviceController device1Controller = device1.GetComponent<DeviceController>(),
                     device2Controller = device2.GetComponent<DeviceController>();
-                GameObject deviceConnection = Instantiate(DeviceConnectionPrefab);
+                GameObject deviceConnection = Instantiate(DeviceConnectionPrefab, transform);
                 Renderer deviceConnectionRenderer = deviceConnection.GetComponent<Renderer>();
                 deviceConnectionRenderer.enabled = false;
                 float distance = Vector3.Distance(device1.transform.position, device2.transform.position);
@@ -98,10 +103,10 @@ public class DeviceManager : MonoBehaviour {
         foreach (Connection connection in Connections) {
             if (connection.Distance <= TRANSMISSION_DISTANCE) {
                 // ELONGATE the DeviceConnection
-                connection.DeviceConnectionRenderer.transform.localScale.Set(
-                    newX: connection.DeviceConnectionRenderer.transform.localScale.x,
-                    newY: Vector3.Distance(connection.Device1.transform.position, connection.Device2.transform.position),
-                    newZ: connection.DeviceConnectionRenderer.transform.localScale.z);
+                connection.DeviceConnectionRenderer.transform.localScale = new Vector3(
+                    x: connection.DeviceConnectionRenderer.transform.localScale.x,
+                    y: Vector3.Distance(connection.Device1.transform.position, connection.Device2.transform.position) / 2,
+                    z: connection.DeviceConnectionRenderer.transform.localScale.z);
                 // Place the DeviceConnection inbetween Device1 and Device2
                 connection.DeviceConnectionRenderer.transform.position =
                     (connection.Device1.transform.position + connection.Device2.transform.position) / 2;

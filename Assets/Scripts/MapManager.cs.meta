@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 156b8c1d5c8b5c847ae218510a27b9a9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RoadStraightPrefab: {fileID: 919132149155446097, guid: 7e96eab08d1dd8d4280a553e2df2d501,
+      type: 3}
+  - RoadFourWayPrefab: {fileID: 919132149155446097, guid: 591ac7baca6064c498bcc52210f84bcf,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
