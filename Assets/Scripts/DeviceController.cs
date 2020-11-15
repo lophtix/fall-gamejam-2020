@@ -23,7 +23,7 @@ public class DeviceController : MonoBehaviour {
                 player = value;
                 PlayerController = player.GetComponent<PlayerController>(); // optimize!
                 if (PlayerController != null) {
-                    PlayerController.nearbyDevices = NearbyConnections;
+                    PlayerController.nearbyConnections = NearbyConnections;
                 }
                 else {
                     // If the GameObject passed was not a "player GameObject" with a PlayerController, reset player field to null.
@@ -42,7 +42,7 @@ public class DeviceController : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
-
+        //Debug.Log(NearbyConnections.Count);
     }
 
     // Update is called once per frame
