@@ -23,12 +23,18 @@ public class DeviceController : MonoBehaviour {
                 player = value;
                 PlayerController = player.GetComponent<PlayerController>(); // optimize!
                 if (PlayerController != null) {
+                    Debug.Log("hej");
                     PlayerController.nearbyConnections = NearbyConnections;
+                    foreach(Connection connection in NearbyConnections)
+                    {
+                        Debug.Log(connection.Distance);
+                    }
                 }
                 else {
                     // If the GameObject passed was not a "player GameObject" with a PlayerController, reset player field to null.
                     player = null;
                 }
+                player.transform.SetParent(gameObject.transform, false);
             }
         }
     }
