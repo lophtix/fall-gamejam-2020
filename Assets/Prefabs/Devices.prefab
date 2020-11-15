@@ -45,6 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DevicePrefab: {fileID: 8058689867366302304, guid: 15acd16e93b13e04bbc3642348797e35,
     type: 3}
+  DeviceConnectionPrefab: {fileID: 3629694748311431534, guid: c735a4af746973149b4ebf1f11deb586,
+    type: 3}
   PlayerPrefab: {fileID: 551702952025237141, guid: 293f767b26f365840b5df333a436c847,
     type: 3}
   NumberOfDevices: 10

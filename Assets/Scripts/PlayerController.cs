@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         selectionArrow.transform.SetParent(target.transform, false);
         //selectionArrow.GetComponent<Renderer>().enabled = true;
-        arrowRenderer.enabled = true;
+        //arrowRenderer.enabled = true;
     }
 
     // Start is called before the first frame update
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
-        Debug.Log(horizontalInput.ToString() + ", " + verticalInput.ToString());
+        //Debug.Log(horizontalInput.ToString() + ", " + verticalInput.ToString());
         //Debug.Log(verticalInput);
 
         if((horizontalInput != 0) || (verticalInput != 0))
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //selectionArrow.GetComponent<Renderer>().enabled = false;
-            arrowRenderer.enabled = false;
+            //arrowRenderer.enabled = false;
         }
     }
 }
